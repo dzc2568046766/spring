@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.duzhicheng.cloud.com.duzhicheng.cloud.dao.user.UserMapper">
+    
+    <resultMap id="personMap" type="springcloudentity.springcloudentity.entity.Person">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="sex" property="sex"></result>
+        <result column="age" property="age"></result>
+        <result column="classNo" property="classNo"></result>
+        
+        <!--<association property="achievement" javaType="springcloudentity.springcloudentity.entity.Achievement">-->
+            <!--<id column="p_id" property="pId"></id>-->
+            <!--<result column="perId" property="perId"></result>-->
+            <!--<result column="subjectName" property="subjectName"></result>-->
+            <!--<result column="achievement" property="achievement"></result>-->
+            <!--<result column="workTime" property="workTime"></result>-->
+        <!--</association>-->
+
+        <collection property="achievements" ofType="springcloudentity.springcloudentity.entity.Achievement">
+            <id column="p_id" property="pId"></id>
+            <result column="perId" property="perId"></result>
+            <result column="subjectName" property="subjectName"></result>
+            <result column="achievement" property="achievement"></result>
+            <result column="workTime" property="workTime"></result>
+        </collection>
+    </resultMap>
+
+    
+    
+    <!--<select id="getPerson" resultType="springcloudentity.springcloudentity.entity.Person">-->
+        <!--select * from t_person where id = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="getAchievement" resultType="springcloudentity.springcloudentity.entity.Achievement">-->
+        <!--select * from t_achievement where perid = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="selectPerson" resultMap="personMap">-->
+        <!--select a.*,b.* from t_Person a inner join t_Achievement b on a.id = b.perid where a.id = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="getPerson1" resultMap="personMap">-->
+        <!--select a.*,b.* from t_Person a inner join t_Achievement b on a.id = b.perid where a.id = #{id}-->
+    <!--</select>-->
+
+    <select id="getPerAndAchList" resultMap="personMap">
+         SELECT
+            per.id AS id
+            ,per.name AS name
+            ,per.sex AS sex
+            ,per.age AS age
+            ,ach.subjectName AS subjectName
+            ,ach.achievement AS achievement
+            ,ach.workTime AS workTime
+        FROM t_person AS per
+        INNER JOIN t_achievement AS ach ON per.id = ach.perId
+        ORDER BY per.sex,ach.subjectName,ach.achievement
+    </select>
+
+
+</mapper>
